@@ -1,0 +1,103 @@
+
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image, FlatList } from 'react-native';
+import { Feather } from '@expo/vector-icons'
+import Cabecalho from '../../componentes/cabecalho/index.js'
+import Pesquisa from '../../componentes/barraPesquisa/index.js'
+import Banner from '../../componentes/banner/index.js'
+import Filmes from '../../componentes/data/filmes.js'
+import CardMovies from '../../componentes/cardsFilmes/index.js';
+import { ScrollView } from 'react-native-web';
+import { useState, useEffect, } from 'react';
+
+export default function Home(){
+
+
+const [movies,setMovies] = useState([]);
+
+useEffect(()=>{
+
+
+async function buscarFilmes(){
+
+
+  const url = 'https://api.themoviedb.org/3/movie/top_rated?language=pt-br-US&page=1';
+  const options = {
+  method: 'GET',
+  headers: {
+  accept: 'application/json',
+  Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNzY1YzEyYzUyMWRiMTEzMjJmZDk1MDJlMWNlYzlmYyIsIm5iZiI6MTc1NTAyMTUxMi40NzksInN1YiI6IjY4OWI4MGM4MzVlMGUyZDIxMDZkNzRiZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.EAMFVwLizTgWASktiIgkzwldJO4_he776g98_jlTAY8'
+    }
+  };
+
+  const response = await fetch(url, options)
+  const data = await response.json();
+  console.log (data);
+  
+  setMovies(data.results)
+
+}
+buscarFilmes ();
+
+
+
+
+
+
+
+},[])
+
+
+
+    return(
+        <ScrollView style={styles.container}>
+
+      <View style={styles.containerImports}>
+
+        <Cabecalho />
+
+        <Pesquisa />
+
+        <Banner />
+
+        <View style={{ width: "90%" }}>
+
+          <FlatList
+
+            showsHorizontalScrollIndicator={false}
+
+            horizontal={true}
+
+            data={movies}
+
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+
+              <CardMovies titulo={item.title} nota={item.nota} imagem={item.poster_patch}  />
+
+            )}
+
+          />
+
+        </View>
+
+      </View>
+
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'black',
+    width: '100%',
+    height: '100%'
+  },
+
+  containerImports: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  }
+
+});
