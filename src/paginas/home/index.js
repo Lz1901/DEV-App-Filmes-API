@@ -73,7 +73,7 @@ buscarFilmes ();
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
 
-              <CardMovies titulo={item.title} nota={item.nota} imagem={item.poster_patch}  />
+              <CardMovies titulo={item.title} nota={item.vote_average} imagem={item.poster_path} sinopse={item.overview} />
 
             )}
 
