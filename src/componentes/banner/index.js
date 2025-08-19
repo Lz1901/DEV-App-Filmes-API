@@ -16,7 +16,7 @@ export default function Banner() {
         <>
             <Image style={styles.imageBanner} source={imagem} />
 
-            <Text style={styles.textBanner}> Em Cartaz </Text>
+            <Text style={styles.textBanner}> Filmes Em Exibição </Text>
         </>
     );
 

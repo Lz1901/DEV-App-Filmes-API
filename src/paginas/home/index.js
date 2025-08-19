@@ -10,34 +10,34 @@ import CardMovies from '../../componentes/cardsFilmes/index.js';
 import { ScrollView } from 'react-native-web';
 import { useState, useEffect, } from 'react';
 
-export default function Home(){
+export default function Home() {
 
 
-const [movies,setMovies] = useState([]);
+  const [movies, setMovies] = useState([]);
 
-useEffect(()=>{
-
-
-async function buscarFilmes(){
+  useEffect(() => {
 
 
-  const url = 'https://api.themoviedb.org/3/movie/top_rated?language=pt-br-US&page=1';
-  const options = {
-  method: 'GET',
-  headers: {
-  accept: 'application/json',
-  Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNzY1YzEyYzUyMWRiMTEzMjJmZDk1MDJlMWNlYzlmYyIsIm5iZiI6MTc1NTAyMTUxMi40NzksInN1YiI6IjY4OWI4MGM4MzVlMGUyZDIxMDZkNzRiZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.EAMFVwLizTgWASktiIgkzwldJO4_he776g98_jlTAY8'
+    async function buscarFilmes() {
+
+
+      const url = 'https://api.themoviedb.org/3/movie/top_rated?language=pt-br-US&page=1';
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNzY1YzEyYzUyMWRiMTEzMjJmZDk1MDJlMWNlYzlmYyIsIm5iZiI6MTc1NTAyMTUxMi40NzksInN1YiI6IjY4OWI4MGM4MzVlMGUyZDIxMDZkNzRiZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.EAMFVwLizTgWASktiIgkzwldJO4_he776g98_jlTAY8'
+        }
+      };
+
+      const response = await fetch(url, options)
+      const data = await response.json();
+      console.log(data);
+
+      setMovies(data.results)
+
     }
-  };
-
-  const response = await fetch(url, options)
-  const data = await response.json();
-  console.log (data);
-  
-  setMovies(data.results)
-
-}
-buscarFilmes ();
+    buscarFilmes();
 
 
 
@@ -45,12 +45,46 @@ buscarFilmes ();
 
 
 
-},[])
+  }, [])
+
+  const [series, setSeries] = useState([]);
+
+  useEffect(() => {
+
+
+    async function buscarFilmes() {
+
+      const url = 'https://api.themoviedb.org/3/movie/popular?language=pt-br-US&page=1';
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNzY1YzEyYzUyMWRiMTEzMjJmZDk1MDJlMWNlYzlmYyIsIm5iZiI6MTc1NTAyMTUxMi40NzksInN1YiI6IjY4OWI4MGM4MzVlMGUyZDIxMDZkNzRiZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.EAMFVwLizTgWASktiIgkzwldJO4_he776g98_jlTAY8'
+        }
+      };
+
+
+      const response = await fetch(url, options)
+      const data = await response.json();
+      console.log(data);
+
+      setSeries(data.results)
+
+    }
+    buscarFilmes();
 
 
 
-    return(
-        <ScrollView style={styles.container}>
+
+
+
+
+  }, [])
+
+
+
+  return (
+    <ScrollView style={styles.container}>
 
       <View style={styles.containerImports}>
 
@@ -79,6 +113,25 @@ buscarFilmes ();
 
           />
 
+          <Text style={styles.textHome}> Populares </Text>
+
+          <FlatList
+
+            showsHorizontalScrollIndicator={false}
+
+            horizontal={true}
+
+            data={series}
+
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+
+              <CardMovies titulo={item.title} nota={item.vote_average} imagem={item.poster_path} sinopse={item.overview} />
+
+            )}
+
+          />
+
         </View>
 
       </View>
@@ -93,6 +146,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%'
   },
+
+  textHome: {
+    fontSize: 30,
+    color: "white",
+    marginTop: 15,
+    marginLeft: 0,
+    fontWeight: 'bold'
+},
 
   containerImports: {
     display: 'flex',
