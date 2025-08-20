@@ -47,7 +47,7 @@ export default function Home() {
 
   }, [])
 
-  const [series, setSeries] = useState([]);
+  const [popular, setPopular] = useState([]);
 
   useEffect(() => {
 
@@ -68,7 +68,7 @@ export default function Home() {
       const data = await response.json();
       console.log(data);
 
-      setSeries(data.results)
+      setPopular(data.results)
 
     }
     buscarFilmes();
@@ -80,6 +80,75 @@ export default function Home() {
 
 
   }, [])
+
+  const [avaliado, setAvaliado] = useState([]);
+
+  useEffect(() => {
+
+
+    async function buscarFilmes() {
+
+      const url = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1';
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNzY1YzEyYzUyMWRiMTEzMjJmZDk1MDJlMWNlYzlmYyIsIm5iZiI6MTc1NTAyMTUxMi40NzksInN1YiI6IjY4OWI4MGM4MzVlMGUyZDIxMDZkNzRiZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.EAMFVwLizTgWASktiIgkzwldJO4_he776g98_jlTAY8'
+        }
+      };
+
+
+      const response = await fetch(url, options)
+      const data = await response.json();
+      console.log(data);
+
+      setAvaliado(data.results)
+
+    }
+    buscarFilmes();
+
+
+
+
+
+
+
+  }, [])
+
+  const [lancamento, setLancamento] = useState([]);
+
+  useEffect(() => {
+
+
+    async function buscarFilmes() {
+
+      const url = 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1';
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNzY1YzEyYzUyMWRiMTEzMjJmZDk1MDJlMWNlYzlmYyIsIm5iZiI6MTc1NTAyMTUxMi40NzksInN1YiI6IjY4OWI4MGM4MzVlMGUyZDIxMDZkNzRiZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.EAMFVwLizTgWASktiIgkzwldJO4_he776g98_jlTAY8'
+        }
+      };
+
+
+      const response = await fetch(url, options)
+      const data = await response.json();
+      console.log(data);
+
+      setLancamento(data.results)
+
+    }
+    buscarFilmes();
+
+
+
+
+
+
+
+  }, [])
+
 
 
 
@@ -121,9 +190,47 @@ export default function Home() {
 
             horizontal={true}
 
-            data={series}
+            data={popular}
 
             keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+
+              <CardMovies titulo={item.title} nota={item.vote_average} imagem={item.poster_path} sinopse={item.overview} />
+
+            )}
+
+          />
+
+          <Text style={styles.textHome}> Bem Avaliados </Text>
+
+          <FlatList
+
+            showsHorizontalScrollIndicator={false}
+
+            horizontal={true}
+
+            data={avaliado}
+
+            keyExtractor={(item) => item.id}/*  */
+            renderItem={({ item }) => (
+
+              <CardMovies titulo={item.title} nota={item.vote_average} imagem={item.poster_path} sinopse={item.overview} />
+
+            )}
+
+          />
+
+          <Text style={styles.textHome}> Em Breve </Text>
+
+          <FlatList
+
+            showsHorizontalScrollIndicator={false}
+
+            horizontal={true}
+
+            data={lancamento}
+
+            keyExtractor={(item) => item.id}/*  */
             renderItem={({ item }) => (
 
               <CardMovies titulo={item.title} nota={item.vote_average} imagem={item.poster_path} sinopse={item.overview} />
@@ -153,7 +260,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 0,
     fontWeight: 'bold'
-},
+  },
 
   containerImports: {
     display: 'flex',
