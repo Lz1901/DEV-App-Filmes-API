@@ -88,7 +88,7 @@ export default function Home() {
 
     async function buscarFilmes() {
 
-      const url = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1';
+      const url = 'https://api.themoviedb.org/3/movie/now_playing?language=pt-br-US&page=1';
       const options = {
         method: 'GET',
         headers: {
@@ -122,7 +122,7 @@ export default function Home() {
 
     async function buscarFilmes() {
 
-      const url = 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1';
+      const url = 'https://api.themoviedb.org/3/movie/upcoming?language=pt-br-US&page=1';
       const options = {
         method: 'GET',
         headers: {
